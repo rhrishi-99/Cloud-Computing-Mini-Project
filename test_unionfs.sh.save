@@ -56,10 +56,9 @@ if grep -q "upper_version" "$MOUNT_DIR/overlap.txt" 2>/dev/null; then pass; else
 # ── Test 4: Copy-on-Write ────────────────────────
 echo -n "Test 4: Copy-on-Write           ... "
 echo "modified_content" >> "$MOUNT_DIR/base.txt" 2>/dev/null
-cow_mount=$(cat "$MOUNT_DIR/base.txt" 2>/dev/null | grep -c "modified_content")
-cow_upper=$(cat "$UPPER_DIR/base.txt" 2>/dev/null | grep -c "modified_content")
-cow_lower=$(cat "$LOWER_DIR/base.txt" 2>/dev/null | grep -c "modified_content")
-if [ "$cow_mount" -ge 1 ] && [ "$cow_upper" -ge 1 ] && [ "$cow_lower" -eq 0 ]; then pass; else fail; fi
+cow_mount=$(grep -c "modified_content" "$MOUNT_DIR/base.txt"0)
+cow_upper=$(grep -c "modified_content" "$UPPER_DIR/base.txt"   2>/dev/null || echo 0)
+cow_lower=$(grep -c "modified_content" "$LOWER_DIR/base.tif [ "$cow_mount" -ge 1 ] && [ "$cow_upper" -ge 1 ] && [ "$cow_lower" -eq 0 ]; then pass; else fail; fi
 
 # ── Test 5: Lower file untouched after CoW ───────
 echo -n "Test 5: Lower file untouched    ... "
